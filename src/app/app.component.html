@@ -1,0 +1,6 @@
+<button routerLink="/"> Home </button>
+<button *ngIf="!isAuthenticated" routerLink="/login"> Login </button>
+<button *ngIf="isAuthenticated" (click)="logout()"> Logout </button>
+<button routerLink="/user-lookup"> User Lookup </button>
+
+<router-outlet></router-outlet>

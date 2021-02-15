@@ -1,0 +1,35 @@
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { OktaAuthService } from '@okta/okta-angular';
+import { from, merge, Observable } from 'rxjs';
+import { map, tap } from 'rxjs/operators';
+
+@Component({
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.scss']
+})
+export class AppComponent {
+  isAuthenticated: boolean;
+
+  constructor(public router: Router, public oktaAuthService: OktaAuthService) {
+    this.oktaAuthService.$authenticationState.subscribe(
+      (isAuthenticated: boolean)  => {
+        console.log('In subscribe:', isAuthenticated);
+        this.isAuthenticated = isAuthenticated;
+      }
+    );
+  }
+
+  async ngOnInit() {
+    // Get the authentication state for immediate use
+    this.isAuthenticated = await this.oktaAuthService.isAuthenticated();
+  }
+
+  // tslint:disable-next-line:typedef
+  async logout() {
+    // Terminates the session with Okta and removes current tokens.
+    await this.oktaAuthService.signOut();
+    this.router.navigateByUrl('/');
+  }
+}
