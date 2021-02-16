@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { OktaAuthService } from '@okta/okta-angular';
 
 @Component({
   selector: 'app-user-lookup',
@@ -7,8 +8,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class UserLookupComponent implements OnInit {
 
-  constructor() { }
+  constructor(public oktaAuthService: OktaAuthService) { }
 
-  ngOnInit(): void {
+  async ngOnInit() {
+    if (await this.oktaAuthService.isAuthenticated()) {
+      console.log('UserClaim:', await this.oktaAuthService.getUser());
+    }
   }
 }
