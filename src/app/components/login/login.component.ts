@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { OktaAuthService } from '@okta/okta-angular';
 import * as OktaSignIn from '@okta/okta-signin-widget';
 
 @Component({
@@ -14,17 +15,21 @@ export class LoginComponent implements OnInit {
       pkce: true
     },
     clientId: '0oafjchi7CsX3TgSw416',
-    redirectUri: `${window.location.origin}/login/callback`
+    redirectUri: `${window.location.origin}`
   });
 
-  constructor() { }
+  constructor(public oktaAuthService: OktaAuthService) { }
 
   ngOnInit(): void {
-    this.widget.renderEl({ el: '#okta-signin-container' }, (res) => {
-      if (res.status === 'SUCCESS') {
-        console.log(res);
-        this.widget.remove();
-      }
+
+    this.widget.showSignInToGetTokens({el: '#okta-signin-container'}).then(tokens => {
+      this.oktaAuthService.setOriginalUri('/');
+
+      this.widget.remove();
+
+      this.oktaAuthService.handleLoginRedirect(tokens);
+    }).catch(err => {
+      throw err;
     });
   }
 

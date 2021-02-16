@@ -4,7 +4,7 @@ import { OktaAuthGuard, OktaCallbackComponent } from '@okta/okta-angular';
 import { LoginComponent } from './components/login/login.component';
 import { UserLookupComponent } from './containers/lookup/user-lookup.component';
 
-function onAuthRequired(oktaAuth, injector) {
+function onAuthRequired(oktaAuth, injector): void {
   const router = injector.get(Router);
 
   // Redirect the user to your custom login page

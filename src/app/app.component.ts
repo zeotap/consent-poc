@@ -15,7 +15,6 @@ export class AppComponent {
   constructor(public router: Router, public oktaAuthService: OktaAuthService) {
     this.oktaAuthService.$authenticationState.subscribe(
       (isAuthenticated: boolean)  => {
-        console.log('In subscribe:', isAuthenticated);
         this.isAuthenticated = isAuthenticated;
       }
     );
@@ -26,7 +25,6 @@ export class AppComponent {
     this.isAuthenticated = await this.oktaAuthService.isAuthenticated();
   }
 
-  // tslint:disable-next-line:typedef
   async logout() {
     // Terminates the session with Okta and removes current tokens.
     await this.oktaAuthService.signOut();
