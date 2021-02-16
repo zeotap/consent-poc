@@ -13,10 +13,6 @@ function onAuthRequired(oktaAuth, injector): void {
 
 const routes: Routes = [
   {
-    path: 'login/callback',
-    component: OktaCallbackComponent
-  },
-  {
     path: 'login',
     component: LoginComponent
   },
@@ -27,6 +23,11 @@ const routes: Routes = [
     data: {
       onAuthRequired
     }
+  },
+  {
+    path: '',
+    pathMatch: 'full',
+    redirectTo: 'user-lookup'
   }
 ];
 

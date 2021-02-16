@@ -1,6 +1,10 @@
-<button routerLink="/"> Home </button>
-<button *ngIf="!isAuthenticated" routerLink="/login"> Login </button>
-<button *ngIf="isAuthenticated" (click)="logout()"> Logout </button>
-<button routerLink="/user-lookup"> User Lookup </button>
-
-<router-outlet></router-outlet>
+<section class="page-container">
+  <div class="title-bar">
+    <span class="title">Consent POC</span>
+    <div class="logout-div">
+      <button class="logout" *ngIf="isAuthenticated" (click)="logout()"> Logout </button>
+    </div>
+  </div>
+  
+  <router-outlet></router-outlet>
+</section>

@@ -15,7 +15,7 @@ export class LoginComponent implements OnInit {
       pkce: true
     },
     clientId: '0oafjchi7CsX3TgSw416',
-    redirectUri: `${window.location.origin}`
+    redirectUri: `${window.location.origin}/user-lookup`
   });
 
   constructor(public oktaAuthService: OktaAuthService) { }
@@ -23,7 +23,7 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
 
     this.widget.showSignInToGetTokens({el: '#okta-signin-container'}).then(tokens => {
-      this.oktaAuthService.setOriginalUri('/');
+      this.oktaAuthService.setOriginalUri('/user-lookup');
 
       this.widget.remove();
 
