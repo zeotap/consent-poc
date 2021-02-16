@@ -23,8 +23,6 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
 
     this.widget.showSignInToGetTokens({el: '#okta-signin-container'}).then(tokens => {
-      this.oktaAuthService.setOriginalUri('/user-lookup');
-
       this.widget.remove();
 
       this.oktaAuthService.handleLoginRedirect(tokens);
