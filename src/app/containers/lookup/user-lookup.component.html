@@ -1,3 +1,16 @@
 <section class="lookup-container">
-  <div class="user-lookup">User Lookup</div>
+  <div class="user-lookup">Consent Preference</div>
+  <section class="consent-preference">
+    <form [formGroup]="consentPreferenceForm" (ngSubmit)="onSubmit()">
+      <div class="wrapper">
+        <div class="header">First Party ID:</div>
+        <input class="formControlValue" type="text" formControlName="firstPartyId">
+        <div class="header"> Email:</div>
+        <input class="formControlValue" type="text" formControlName="email">
+        <div class="header">Phone:</div>
+        <input class="formControlValue" type="number" formControlName="phone">
+      </div>
+      <button class="submit" type="submit" [disabled]="!consentPreferenceForm.valid">Search</button>
+    </form>
+  </section>
 </section>

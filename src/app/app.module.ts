@@ -6,6 +6,7 @@ import { AppComponent } from './app.component';
 import { UserLookupComponent } from './containers/lookup/user-lookup.component';
 import { LoginComponent } from './components/login/login.component';
 import { OktaAuthModule, OKTA_CONFIG } from '@okta/okta-angular';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 const config = {
   issuer: 'https://zeotap-poc.okta.com/oauth2/default',
@@ -24,7 +25,9 @@ const config = {
   imports: [
     BrowserModule,
     AppRoutingModule,
-    OktaAuthModule
+    OktaAuthModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [
     {
