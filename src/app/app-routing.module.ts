@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule, Router } from '@angular/router';
-import { OktaAuthGuard, OktaCallbackComponent } from '@okta/okta-angular';
+import { OktaAuthGuard } from '@okta/okta-angular';
 import { LoginComponent } from './components/login/login.component';
-import { UserLookupComponent } from './containers/lookup/user-lookup.component';
+import { UserConsentPreferenceComponent } from './containers/user-consent-preference/user-consent-preference.component';
 
 function onAuthRequired(oktaAuth, injector): void {
   const router = injector.get(Router);
@@ -17,8 +17,8 @@ const routes: Routes = [
     component: LoginComponent
   },
   {
-    path: 'user-lookup',
-    component: UserLookupComponent,
+    path: 'user-consent-preference',
+    component: UserConsentPreferenceComponent,
     canActivate: [ OktaAuthGuard ],
     data: {
       onAuthRequired
@@ -27,7 +27,7 @@ const routes: Routes = [
   {
     path: '',
     pathMatch: 'full',
-    redirectTo: 'user-lookup'
+    redirectTo: 'user-consent-preference'
   }
 ];
 

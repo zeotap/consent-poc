@@ -15,7 +15,7 @@ export class LoginComponent implements OnInit {
       pkce: true
     },
     clientId: '0oafjchi7CsX3TgSw416',
-    redirectUri: `${window.location.origin}/user-lookup`
+    redirectUri: `${window.location.origin}/user-consent-preference`
   });
 
   constructor(public oktaAuthService: OktaAuthService) { }

@@ -3,11 +3,11 @@ import { OktaAuthService } from '@okta/okta-angular';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
-  selector: 'app-user-lookup',
-  templateUrl: './user-lookup.component.html',
-  styleUrls: ['./user-lookup.component.scss']
+  selector: 'app-user-consent-preference',
+  templateUrl: './user-consent-preference.component.html',
+  styleUrls: ['./user-consent-preference.component.scss']
 })
-export class UserLookupComponent implements OnInit {
+export class UserConsentPreferenceComponent implements OnInit {
   consentPreferenceForm = new FormGroup({
     firstPartyId: new FormControl('', [Validators.required]),
     email: new FormControl('', [Validators.required]),
@@ -23,7 +23,7 @@ export class UserLookupComponent implements OnInit {
   }
 
   onSubmit() {
-    console.warn(this.consentPreferenceForm.value);
+    console.log(this.consentPreferenceForm.value);
     this.consentPreferenceForm.reset();
   }
 }

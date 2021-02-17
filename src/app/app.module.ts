@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { UserLookupComponent } from './containers/lookup/user-lookup.component';
+import { UserConsentPreferenceComponent } from './containers/user-consent-preference/user-consent-preference.component';
 import { LoginComponent } from './components/login/login.component';
 import { OktaAuthModule, OKTA_CONFIG } from '@okta/okta-angular';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -19,7 +19,7 @@ const config = {
 @NgModule({
   declarations: [
     AppComponent,
-    UserLookupComponent,
+    UserConsentPreferenceComponent,
     LoginComponent
   ],
   imports: [
