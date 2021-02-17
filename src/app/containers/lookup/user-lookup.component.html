@@ -10,7 +10,8 @@
         <div class="header">Phone:</div>
         <input class="formControlValue" type="number" formControlName="phone">
       </div>
-      <button class="submit" type="submit" [disabled]="!consentPreferenceForm.valid">Search</button>
+      <button class="submit" type="submit"
+        [disabled]="!(consentPreferenceForm.get('firstPartyId').valid || consentPreferenceForm.get('email').valid || consentPreferenceForm.get('phone').valid)">Search</button>
     </form>
   </section>
 </section>
