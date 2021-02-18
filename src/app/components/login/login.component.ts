@@ -14,7 +14,7 @@ export class LoginComponent implements OnInit {
     authParams: {
       pkce: true
     },
-    clientId: '0oafjchi7CsX3TgSw416',
+    clientId: '0oaf0gkkrJhBDSiWT416',
     redirectUri: `${window.location.origin}/user-consent-preference`
   });
 

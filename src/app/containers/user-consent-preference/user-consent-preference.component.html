@@ -1,5 +1,6 @@
 <ng-container *ngIf="{
-  searchResult: searchResult$ | async
+  searchResult: searchResult$ | async,
+  error: error$ | async
  } as data">
   <section class="lookup-container">
     <div class="user-lookup">Consent Preference</div>
@@ -17,9 +18,10 @@
           [disabled]="!(consentPreferenceForm.get('firstPartyId').valid || consentPreferenceForm.get('email').valid || consentPreferenceForm.get('phone').valid)">Search</button>
       </form>
     </section>
-    <section class="consent-details" *ngIf="data?.searchResult">
+    <section class="consent-details" *ngIf="data?.searchResult || data?.error">
       <div class="heading">My Consent</div>
       <div class="result">{{data?.searchResult}}</div>
+      <div class="result error"> {{data?.error}} </div>
     </section>
   </section>
 </ng-container>

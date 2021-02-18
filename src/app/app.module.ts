@@ -8,11 +8,12 @@ import { LoginComponent } from './components/login/login.component';
 import { OktaAuthModule, OKTA_CONFIG } from '@okta/okta-angular';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UserConsentPreferenceService } from './service/user-consent-preference.service';
+import { HttpClientModule } from '@angular/common/http';
 
 const config = {
   issuer: 'https://zeotap-poc.okta.com/oauth2/default',
   redirectUri: window.location.origin + '/login/callback',
-  clientId: '0oafjchi7CsX3TgSw416',
+  clientId: '0oaf0gkkrJhBDSiWT416',
   pkce: true,
   scopes: ['openid', 'profile', 'email']
 };
@@ -28,7 +29,8 @@ const config = {
     AppRoutingModule,
     OktaAuthModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    HttpClientModule
   ],
   providers: [
     {
