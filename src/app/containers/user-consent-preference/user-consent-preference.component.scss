@@ -45,4 +45,22 @@
       text-transform: uppercase;
     }
   }
+  .consent-details {
+    font-size: 16px;
+    color: #303030;
+    text-transform: uppercase;
+    margin-top: 10px;
+    width: calc(100% - 60px);
+    padding: 20px 20px 20px 0;
+    border: 1px solid rgba(193, 193, 197, 0.3);
+    .heading {
+      border-bottom: 2px solid #054694;
+      width: max-content;
+      margin-left: 20px;
+    }
+    .result{
+      text-align: center;
+      font-size: 12px;
+    }
+  }
 }

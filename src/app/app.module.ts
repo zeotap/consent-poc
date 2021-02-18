@@ -7,6 +7,7 @@ import { UserConsentPreferenceComponent } from './containers/user-consent-prefer
 import { LoginComponent } from './components/login/login.component';
 import { OktaAuthModule, OKTA_CONFIG } from '@okta/okta-angular';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { UserConsentPreferenceService } from './service/user-consent-preference.service';
 
 const config = {
   issuer: 'https://zeotap-poc.okta.com/oauth2/default',
@@ -32,7 +33,8 @@ const config = {
   providers: [
     {
       provide: OKTA_CONFIG, useValue: config
-    }
+    },
+    UserConsentPreferenceService
   ],
   bootstrap: [AppComponent]
 })
