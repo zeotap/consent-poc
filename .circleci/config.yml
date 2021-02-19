@@ -26,7 +26,7 @@ workflows:
   push_docker_image:
     jobs:
       - release_image:
-          context: Q1-2021
+          context: Q3-2020
           filters:
             branches:
               only: /^master$/
