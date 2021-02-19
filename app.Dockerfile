@@ -5,7 +5,7 @@ COPY package.json package-lock.json /app/
 RUN npm ci
 
 COPY . .
-RUN ./node_modules/@angular/cli/bin/ng build --configuration=production
+RUN npm run build-prod
 
 FROM nginx:1.17.1-alpine
 

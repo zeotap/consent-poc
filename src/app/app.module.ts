@@ -27,10 +27,10 @@ const config = {
   imports: [
     BrowserModule,
     AppRoutingModule,
-    OktaAuthModule,
+    HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
-    HttpClientModule
+    OktaAuthModule
   ],
   providers: [
     {
