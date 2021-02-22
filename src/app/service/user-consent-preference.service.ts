@@ -26,6 +26,59 @@ export interface SearchAPIResponse extends BaseAPIResponse {
 export const isSuccess = (status: Status) => status === Status.Success;
 export const isError = (status: Status) => status === Status.Error;
 
+const searchResponse = {
+  ids: [
+    {
+      type: 'ucid',
+      value: '<ucid1>',
+      ttl: 180,
+      updatedTs: 1612942279
+    },
+    {
+      type: 'Google',
+      value: '<gc1>',
+      ttl: 180,
+      updatedTs: 1612942279
+    }
+  ],
+  profile: {
+    gender: 'male',
+    age: '15',
+    customerType: 'prepaid',
+    updatedTs: 1612942279
+  },
+  consents: [
+    {
+      regulation: 'gdpr',
+      purpose: 'Advertising',
+      value: 'yes',
+      ttl: 750,
+      updatedTs: 1612942279
+    },
+    {
+      regulation: 'gdpr',
+      purpose: 'marketing',
+      value: 'no',
+      ttl: 750,
+      updatedTs: 1612942279
+    }
+  ],
+  mktPreferences: [
+    {
+      preference: 'email',
+      value: 'yes',
+      ttl: 780,
+      updatedTs: 1612942279
+    },
+    {
+      preference: 'messaging',
+      value: 'no',
+      ttl: 780,
+      updatedTs: 1612942279
+    }
+  ]
+};
+
 @Injectable()
 export class UserConsentPreferenceService {
   constructor(public http: HttpClient) { }
@@ -56,7 +109,7 @@ export class UserConsentPreferenceService {
   public search(
     payload: any,
     token: string
-  ): Observable<SearchAPIResponse> {
+  ): Observable<BaseAPIResponse> {
     const headers = new HttpHeaders()
       .append('Content-Type', 'application/json')
       .append('Accept', 'application/json')
@@ -64,14 +117,16 @@ export class UserConsentPreferenceService {
         'Authorization',
         `Bearer ${token}`
       );
-    return this.http.get(`https://unity-qa.zeotap.com/zeosphere/api/v2/countries`, { headers }).pipe(
+    // return this.http.get(`https://unity-qa.zeotap.com/zeosphere/api/v2/countries`, { headers })
+    return of([])
+    .pipe(
       map((res: any) => ({
         status: Status.Success,
-        data: 'It Works!'
+        data: searchResponse
       })
       ),
       catchError((err: HttpErrorResponse) =>
-        of(this.handleError<SearchAPIResponse>(err))
+        of(this.handleError<BaseAPIResponse>(err))
       )
     );
   }

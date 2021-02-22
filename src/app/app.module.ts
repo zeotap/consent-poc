@@ -25,20 +25,20 @@ const config = {
 @NgModule({
   declarations: [
     AppComponent,
-    UserConsentPreferenceComponent,
-    LoginComponent
+    LoginComponent,
+    UserConsentPreferenceComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     CommonModule,
+    BrowserAnimationsModule,
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
     MatProgressSpinnerModule,
     MatTableModule,
-    OktaAuthModule,
-    BrowserAnimationsModule
+    OktaAuthModule
   ],
   providers: [
     {

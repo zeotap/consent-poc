@@ -33,10 +33,39 @@
               [disabled]="!(consentPreferenceForm.get('firstPartyId').valid || consentPreferenceForm.get('email').valid || consentPreferenceForm.get('phone').valid)">Search</button>
           </form>
         </section>
-        <section class="consent-details" *ngIf="data?.searchResult || data?.error">
-          <div class="heading">My Consent</div>
-          <div class="result">{{data?.searchResult}}</div>
-          <div class="result error"> {{data?.error}} </div>
+
+        <section *ngIf="!!data.searchResult">
+          <div class="table">
+            <table mat-table [dataSource]="data.searchResult?.consents" class="mat-elevation-z8">
+              <ng-container matColumnDef="regulation">
+                <th mat-header-cell *matHeaderCellDef> Regulation </th>
+                <td mat-cell *matCellDef="let consent"> {{consent.regulation}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="purpose">
+                <th mat-header-cell *matHeaderCellDef> Purpose </th>
+                <td mat-cell *matCellDef="let consent"> {{consent.purpose}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="value">
+                <th mat-header-cell *matHeaderCellDef> Value </th>
+                <td mat-cell *matCellDef="let consent"> {{consent.value}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="ttl">
+                <th mat-header-cell *matHeaderCellDef> TTL </th>
+                <td mat-cell *matCellDef="let consent"> {{consent.ttl}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="updatedTs">
+                <th mat-header-cell *matHeaderCellDef> UpdatedTs </th>
+                <td mat-cell *matCellDef="let consent"> {{consent.updatedTs}} </td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+          </div>
         </section>
       </section>
     </ng-container>

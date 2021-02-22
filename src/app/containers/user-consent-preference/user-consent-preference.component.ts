@@ -16,7 +16,8 @@ import {
   styleUrls: ['./user-consent-preference.component.scss']
 })
 export class UserConsentPreferenceComponent implements OnInit {
-  searchResult$: Observable<string>;
+  displayedColumns: string[] = ['regulation', 'purpose', 'value', 'ttl', 'updatedTs'];
+  searchResult$: Observable<any>;
   error$: Observable<string>;
   consentPreferenceForm = new FormGroup({
     firstPartyId: new FormControl('', [Validators.required]),
@@ -52,11 +53,11 @@ export class UserConsentPreferenceComponent implements OnInit {
       this.userConsentPreferenceService.search(this.consentPreferenceForm.value, this.oktaAuthService.getIdToken()).pipe(share());
     this.searchResult$ = searchResponse$.pipe(
       filter((res) => isSuccess(res.status)),
-      map((res: SearchAPIResponse) => res.data)
+      map((res: BaseAPIResponse) => res.data)
     );
     this.error$ = searchResponse$.pipe(
       filter((res) => isError(res.status)),
-      map((res: SearchAPIResponse) => res.error)
+      map((res: BaseAPIResponse) => res.error)
     );
   }
 }
