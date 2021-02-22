@@ -1,12 +1,13 @@
-import { UserConsentPreferenceService, SearchAPIResponse, isSuccess, isError } from './../../service/user-consent-preference.service';
+import { UserConsentPreferenceService, SearchAPIResponse, isSuccess, isError, BaseAPIResponse } from './../../service/user-consent-preference.service';
 import { Component, OnInit } from '@angular/core';
 import { OktaAuthService } from '@okta/okta-angular';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import {
   filter,
   map,
   share,
+  tap,
 } from 'rxjs/operators';
 
 @Component({
@@ -22,6 +23,11 @@ export class UserConsentPreferenceComponent implements OnInit {
     email: new FormControl('', [Validators.required]),
     phone: new FormControl('', [Validators.required]),
   });
+  showConsentPreference$ = new BehaviorSubject<boolean>(false);
+  userDetails$: Observable<{
+    name: string;
+    orgName: string;
+  }>;
 
   constructor(public oktaAuthService: OktaAuthService, private userConsentPreferenceService: UserConsentPreferenceService) { }
 
@@ -29,11 +35,21 @@ export class UserConsentPreferenceComponent implements OnInit {
     if (await this.oktaAuthService.isAuthenticated()) {
       console.log('UserClaim:', await this.oktaAuthService.getUser());
     }
+
+    this.userDetails$ = this.userConsentPreferenceService.getDetails(this.oktaAuthService.getIdToken())
+    .pipe(
+      map((res: BaseAPIResponse) => ({
+        name: res.data.user.user_info.first_name,
+        orgName: res.data.user.org_info.display_name
+      })),
+      tap(() => this.showConsentPreference$.next(true))
+    );
   }
 
-  onSubmit() {
+  onSubmit(): void {
     this.consentPreferenceForm.reset();
-    const searchResponse$ = this.userConsentPreferenceService.search(this.consentPreferenceForm.value, this.oktaAuthService.getIdToken()).pipe(share());
+    const searchResponse$ =
+      this.userConsentPreferenceService.search(this.consentPreferenceForm.value, this.oktaAuthService.getIdToken()).pipe(share());
     this.searchResult$ = searchResponse$.pipe(
       filter((res) => isSuccess(res.status)),
       map((res: SearchAPIResponse) => res.data)

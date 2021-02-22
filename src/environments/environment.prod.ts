@@ -1,3 +1,4 @@
 export const environment = {
-  production: true
+  production: true,
+  userServiceUrl: 'https://account-qa.zeotap.com/api/v4/'
 };

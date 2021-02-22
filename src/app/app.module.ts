@@ -9,6 +9,10 @@ import { OktaAuthModule, OKTA_CONFIG } from '@okta/okta-angular';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UserConsentPreferenceService } from './service/user-consent-preference.service';
 import { HttpClientModule } from '@angular/common/http';
+import { CommonModule } from '@angular/common';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatTableModule } from '@angular/material/table';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 const config = {
   issuer: 'https://zeotap-poc.okta.com/oauth2/default',
@@ -27,10 +31,14 @@ const config = {
   imports: [
     BrowserModule,
     AppRoutingModule,
+    CommonModule,
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
-    OktaAuthModule
+    MatProgressSpinnerModule,
+    MatTableModule,
+    OktaAuthModule,
+    BrowserAnimationsModule
   ],
   providers: [
     {
