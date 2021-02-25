@@ -8,27 +8,27 @@ import * as OktaSignIn from '@okta/okta-signin-widget';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
-  widget = new OktaSignIn({
-    baseUrl: 'https://zeotap-poc.okta.com',
-    logo: 'https://content.zeotap.com/img/Zeotap%20Private%20Channel.png',
-    authParams: {
-      pkce: true
-    },
-    clientId: '0oaf0gkkrJhBDSiWT416',
-    redirectUri: `${window.location.origin}/user-consent-preference`
-  });
+  // widget = new OktaSignIn({
+  //   baseUrl: 'https://zeotap-poc.okta.com',
+  //   logo: 'https://content.zeotap.com/img/Zeotap%20Private%20Channel.png',
+  //   authParams: {
+  //     pkce: true
+  //   },
+  //   clientId: '0oaf0gkkrJhBDSiWT416',
+  //   redirectUri: `${window.location.origin}/user-consent-preference`
+  // });
 
   constructor(public oktaAuthService: OktaAuthService) { }
 
   ngOnInit(): void {
+    this.oktaAuthService.signInWithRedirect();
+    // this.widget.showSignInToGetTokens({el: '#okta-signin-container'}).then(tokens => {
+    //   this.widget.remove();
 
-    this.widget.showSignInToGetTokens({el: '#okta-signin-container'}).then(tokens => {
-      this.widget.remove();
-
-      this.oktaAuthService.handleLoginRedirect(tokens);
-    }).catch(err => {
-      throw err;
-    });
+    //   this.oktaAuthService.handleLoginRedirect(tokens);
+    // }).catch(err => {
+    //   throw err;
+    // });
   }
 
 }

@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule, Router } from '@angular/router';
-import { OktaAuthGuard } from '@okta/okta-angular';
+import { OktaAuthGuard, OktaCallbackComponent } from '@okta/okta-angular';
 import { LoginComponent } from './components/login/login.component';
 import { UserConsentPreferenceComponent } from './containers/user-consent-preference/user-consent-preference.component';
 
@@ -12,6 +12,10 @@ function onAuthRequired(oktaAuth, injector): void {
 }
 
 const routes: Routes = [
+  {
+    path: 'callback',
+    component: OktaCallbackComponent
+  },
   {
     path: 'login',
     component: LoginComponent
@@ -28,7 +32,7 @@ const routes: Routes = [
     path: '',
     pathMatch: 'full',
     redirectTo: 'user-consent-preference'
-  }
+  },
 ];
 
 @NgModule({

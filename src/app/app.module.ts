@@ -16,10 +16,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 const config = {
   issuer: 'https://zeotap-poc.okta.com/oauth2/default',
-  redirectUri: window.location.origin + '/login/callback',
+  redirectUri: `${window.location.origin}/callback`,
   clientId: '0oaf0gkkrJhBDSiWT416',
+  scopes: ['openid', 'profile', 'email'],
   pkce: true,
-  scopes: ['openid', 'profile', 'email']
 };
 
 @NgModule({
