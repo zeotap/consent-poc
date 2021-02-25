@@ -2,12 +2,12 @@ import { UserConsentPreferenceService, SearchAPIResponse, isSuccess, isError, Ba
 import { Component, OnInit } from '@angular/core';
 import { OktaAuthService } from '@okta/okta-angular';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, from } from 'rxjs';
 import {
   filter,
   map,
   share,
-  tap,
+  tap
 } from 'rxjs/operators';
 
 @Component({
@@ -25,26 +25,26 @@ export class UserConsentPreferenceComponent implements OnInit {
     phone: new FormControl('', [Validators.required]),
   });
   showConsentPreference$ = new BehaviorSubject<boolean>(false);
-  userDetails$: Observable<{
-    name: string;
-    orgName: string;
-  }>;
+  userDetails$: Observable<{name: string}>;
 
   constructor(public oktaAuthService: OktaAuthService, private userConsentPreferenceService: UserConsentPreferenceService) { }
 
   async ngOnInit() {
     if (await this.oktaAuthService.isAuthenticated()) {
-      console.log('UserClaim:', await this.oktaAuthService.getUser());
+      this.userDetails$ = from(this.oktaAuthService.getUser()).pipe(
+        map((res) => ({name: res.name})),
+        tap(() => this.showConsentPreference$.next(true))
+      )
     }
-
-    this.userDetails$ = this.userConsentPreferenceService.getDetails(this.oktaAuthService.getIdToken())
-    .pipe(
-      map((res: BaseAPIResponse) => ({
-        name: res.data.user.user_info.first_name,
-        orgName: res.data.user.org_info.display_name
-      })),
-      tap(() => this.showConsentPreference$.next(true))
-    );
+    // this.userDetails$ = this.userConsentPreferenceService.getDetails(this.oktaAuthService.getIdToken())
+    // .pipe(
+    //   tap(console.log),
+    //   map((res: BaseAPIResponse) => ({
+    //     name: res.data.user.user_info.first_name,
+    //     orgName: res.data.user.org_info.display_name
+    //   })),
+    //   tap(() => this.showConsentPreference$.next(true))
+    // );
   }
 
   onSubmit(): void {
