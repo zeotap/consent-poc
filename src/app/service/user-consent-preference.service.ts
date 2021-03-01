@@ -5,8 +5,9 @@ import {
   HttpErrorResponse,
   HttpHeaders,
 } from '@angular/common/http';
-import { catchError, map } from 'rxjs/operators';
+import { catchError, map, tap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 export enum Status {
   Success = 'Success',
@@ -81,7 +82,7 @@ const searchResponse = {
 
 @Injectable()
 export class UserConsentPreferenceService {
-  constructor(public http: HttpClient) { }
+  constructor(public http: HttpClient, private _snackBar: MatSnackBar) { }
   handleError<T extends BaseAPIResponse>(error: HttpErrorResponse): T {
     if (error.error instanceof ErrorEvent) {
       console.error('An error occurred:', error.error.message);
@@ -93,6 +94,11 @@ export class UserConsentPreferenceService {
         case 400:
         case 401:
         case 403: {
+          this._snackBar.open(error.error.message, '', {
+            duration: 4000,
+            verticalPosition: 'top',
+            horizontalPosition: 'center',
+          });
           return {
             status: Status.Error,
             error: error.error.error,
@@ -141,6 +147,7 @@ export class UserConsentPreferenceService {
       );
 
     return this.http.get(`${environment.userServiceUrl}login/`, { headers }).pipe(
+      tap(res => this.storeUserData(res)),
       map((res: any) => ({
         status: Status.Success,
         data: res
@@ -148,6 +155,18 @@ export class UserConsentPreferenceService {
       catchError((err: HttpErrorResponse) =>
         of(this.handleError<BaseAPIResponse>(err))
       )
+    );
+  }
+
+  storeUserData(res) {
+    localStorage.setItem(
+      'user_info',
+      JSON.stringify(res['user']['user_info'])
+    );
+    localStorage.setItem('org_info', JSON.stringify(res['user']['org_info']));
+    localStorage.setItem(
+      'prod_info',
+      JSON.stringify(res['user']['product_info'])
     );
   }
 }

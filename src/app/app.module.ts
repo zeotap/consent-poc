@@ -13,6 +13,7 @@ import { CommonModule } from '@angular/common';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTableModule } from '@angular/material/table';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
 
 const config = {
   issuer: 'https://zeotap-poc.okta.com/oauth2/default',
@@ -37,6 +38,7 @@ const config = {
     FormsModule,
     ReactiveFormsModule,
     MatProgressSpinnerModule,
+    MatSnackBarModule,
     MatTableModule,
     OktaAuthModule
   ],

@@ -2,12 +2,14 @@ import { UserConsentPreferenceService, SearchAPIResponse, isSuccess, isError, Ba
 import { Component, OnInit } from '@angular/core';
 import { OktaAuthService } from '@okta/okta-angular';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { BehaviorSubject, Observable, from } from 'rxjs';
+import { BehaviorSubject, Observable, from, Subject, merge } from 'rxjs';
 import {
   filter,
   map,
   share,
-  tap
+  takeUntil,
+  tap,
+  switchMap
 } from 'rxjs/operators';
 
 @Component({
@@ -25,39 +27,48 @@ export class UserConsentPreferenceComponent implements OnInit {
     phone: new FormControl('', [Validators.required]),
   });
   showConsentPreference$ = new BehaviorSubject<boolean>(false);
-  userDetails$: Observable<{name: string}>;
+  userDetails$: Observable<{ name: string }>;
+  unsubscribe$ = new Subject();
+  onSubmit$ = new Subject<boolean>();
 
   constructor(public oktaAuthService: OktaAuthService, private userConsentPreferenceService: UserConsentPreferenceService) { }
 
   async ngOnInit() {
     if (await this.oktaAuthService.isAuthenticated()) {
       this.userDetails$ = from(this.oktaAuthService.getUser()).pipe(
-        map((res) => ({name: res.name})),
+        map((res) => ({ name: res.name })),
         tap(() => this.showConsentPreference$.next(true))
       )
     }
-    // this.userDetails$ = this.userConsentPreferenceService.getDetails(this.oktaAuthService.getIdToken())
-    // .pipe(
-    //   tap(console.log),
-    //   map((res: BaseAPIResponse) => ({
-    //     name: res.data.user.user_info.first_name,
-    //     orgName: res.data.user.org_info.display_name
-    //   })),
-    //   tap(() => this.showConsentPreference$.next(true))
-    // );
-  }
+    const userInfo$ = this.userConsentPreferenceService.getDetails(this.oktaAuthService.getIdToken()).pipe(share());
+    userInfo$
+      .pipe(
+        takeUntil(this.unsubscribe$),
+        filter((res) => isSuccess(res.status)),
+        tap(() => this.showConsentPreference$.next(true))
+      ).subscribe();
 
-  onSubmit(): void {
-    this.consentPreferenceForm.reset();
-    const searchResponse$ =
-      this.userConsentPreferenceService.search(this.consentPreferenceForm.value, this.oktaAuthService.getIdToken()).pipe(share());
+    const searchResponse$ = this.onSubmit$.pipe(
+      switchMap(_ => this.userConsentPreferenceService.search(this.consentPreferenceForm.value, this.oktaAuthService.getIdToken()).pipe(share()))
+    )
     this.searchResult$ = searchResponse$.pipe(
       filter((res) => isSuccess(res.status)),
       map((res: BaseAPIResponse) => res.data)
     );
-    this.error$ = searchResponse$.pipe(
-      filter((res) => isError(res.status)),
-      map((res: BaseAPIResponse) => res.error)
-    );
+
+    this.error$ = merge(
+      searchResponse$.pipe(
+        filter((res) => isError(res.status)),
+        map((res: BaseAPIResponse) => res.error)
+      ),
+      userInfo$.pipe(
+        filter((res) => isError(res.status)),
+        map((res: BaseAPIResponse) => res.error))
+    )
+  }
+
+  onSubmit(): void {
+    this.consentPreferenceForm.reset();
+    this.onSubmit$.next(true);
   }
 }

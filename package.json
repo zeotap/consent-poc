@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve --port 4205",
+    "start": "ng serve --port 4205 --ssl --ssl-key /Users/pritamshaha/Desktop/localhost.key --ssl-cert /Users/pritamshaha/Desktop/localhost.crt",
     "start-no-livereload": "ng serve --port 4205 --no-live-reload",
     "build": "ng build",
     "build-prod": "ng build --configuration=production",
