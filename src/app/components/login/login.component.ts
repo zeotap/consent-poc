@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnChanges, OnInit } from '@angular/core';
 import { OktaAuthService } from '@okta/okta-angular';
 import * as OktaSignIn from '@okta/okta-signin-widget';
 
@@ -7,7 +7,7 @@ import * as OktaSignIn from '@okta/okta-signin-widget';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, OnChanges {
   // widget = new OktaSignIn({
   //   baseUrl: 'https://zeotap-poc.okta.com',
   //   logo: 'https://content.zeotap.com/img/Zeotap%20Private%20Channel.png',
@@ -19,16 +19,23 @@ export class LoginComponent implements OnInit {
   // });
 
   constructor(public oktaAuthService: OktaAuthService) { }
+  ngOnInit() {
+    this.login();
+  }
 
-  ngOnInit(): void {
-    this.oktaAuthService.signInWithRedirect();
+  ngOnChanges(): void {
+    this.login();
     // this.widget.showSignInToGetTokens({el: '#okta-signin-container'}).then(tokens => {
     //   this.widget.remove();
 
-    //   this.oktaAuthService.handleLoginRedirect(tokens);
+      // this.oktaAuthService.handleLoginRedirect(tokens);
     // }).catch(err => {
     //   throw err;
     // });
+  }
+
+  login() {
+    this.oktaAuthService.signInWithRedirect({loginHint: window.document.location.search.replace(/^(.)|(.)$/g,'')});
   }
 
 }

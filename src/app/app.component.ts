@@ -28,6 +28,6 @@ export class AppComponent {
   async logout() {
     // Terminates the session with Okta and removes current tokens.
     await this.oktaAuthService.signOut();
-    this.router.navigateByUrl('/');
+    window.location.href = window.location.origin;
   }
 }
