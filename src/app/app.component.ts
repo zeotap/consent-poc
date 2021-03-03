@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { OktaAuthService } from '@okta/okta-angular';
-import { from, merge, Observable } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-root',
@@ -28,6 +26,6 @@ export class AppComponent {
   async logout() {
     // Terminates the session with Okta and removes current tokens.
     await this.oktaAuthService.signOut();
-    window.location.href = window.location.origin;
+    this.router.navigateByUrl('/');
   }
 }
