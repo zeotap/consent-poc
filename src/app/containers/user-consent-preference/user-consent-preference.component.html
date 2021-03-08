@@ -1,19 +1,20 @@
 <section class="loader" *ngIf="!(showConsentPreference$ | async)">
   <mat-spinner [diameter]="50"></mat-spinner>
 </section>
-<ng-container *ngIf="(userDetails$ | async) as userDetails">
+<ng-container *ngIf="(userOrg$ | async) as userOrg">
   <ng-container *ngIf="showConsentPreference$ | async">
     <ng-container *ngIf="{
         searchResult: searchResult$ | async,
-        error: error$ | async
+        error: error$ | async,
+        userDetails: userDetails$ | async
        } as data">
       <section class="lookup-container">
         <div class="consent-bar">
           <div class="user-lookup">Consent Preference</div>
           <div class="user-info">
             <div>
-              Hi, {{userDetails.name}}
-            </div>
+              Hi, {{data?.userDetails.name}}
+            </div> {{userOrg}}
           </div>
         </div>
         <section class="consent-preference">
